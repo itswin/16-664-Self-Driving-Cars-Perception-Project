@@ -131,7 +131,6 @@ if __name__ == '__main__':
                     prog='Trainer',
                     description='Trainer for 16-664 Project')
 
-    parser.add_argument('--data', type=str, default='trainval')
     parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--train', action='store_true')
     parser.add_argument('--test', action='store_true')
@@ -146,7 +145,7 @@ if __name__ == '__main__':
     checkpoint_dir = os.path.dirname(checkpoint_path)
 
     if args.train:
-        train_images, train_labels = load_data(args.data)
+        train_images, train_labels = load_data("trainval")
         print(f"Loaded {len(train_images)} images")
 
         batch_size = 32
