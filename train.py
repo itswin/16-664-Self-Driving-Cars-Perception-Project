@@ -24,7 +24,7 @@ num_classes = 23
 def class_to_label(class_id):
     if 1 <= class_id <= 8:
         return 1
-    elif 9 <= class_id <= 15:
+    elif 9 <= class_id <= 14:
         return 2
     else:
         return 0
@@ -33,7 +33,7 @@ def write_test_labels(classes, num_images=10000, start=0, no_header=False):
     images = glob('test/*/*_image.jpg')
     images.sort()
 
-    name = 'test_labels2.csv'
+    name = 'test_labels.csv'
     with open(name, 'w') as f:
         writer = csv.writer(f, delimiter=',', lineterminator='\n')
         if not no_header:
@@ -96,7 +96,6 @@ def load_data(path, num_images=10000, start=0):
         img = skimage.transform.resize(img, (w, h))
         img = img / 255.0
         imgs.append(img)
-        class_id = class_to_label(class_id)
         classes.append(class_id)
 
         if len(imgs) % 100 == 0:
@@ -141,7 +140,7 @@ if __name__ == '__main__':
     model = create_model()
     model.summary()
 
-    checkpoint_path = "training_1/cp-{epoch:04d}.ckpt"
+    checkpoint_path = "training_1.2/cp-{epoch:04d}.ckpt"
     checkpoint_dir = os.path.dirname(checkpoint_path)
 
     if args.train:
@@ -155,7 +154,7 @@ if __name__ == '__main__':
         n_batches = math.ceil(n_batches)
         save_freq_epochs = 10
 
-        # Create a callback that saves the model's weights every 5 epochs
+        # Create a callback that saves the model's weights every few epochs
         cp_callback = tf.keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_path, 
             verbose=1, 
